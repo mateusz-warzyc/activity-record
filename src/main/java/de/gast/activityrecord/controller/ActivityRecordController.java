@@ -1,8 +1,6 @@
 package de.gast.activityrecord.controller;
 
-import java.net.URLDecoder;
-import java.sql.Timestamp;
-
+import de.gast.activityrecord.service.ActivityRecordService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.gast.activityrecord.service.ActivityRecordService;
+import java.net.URLDecoder;
 
 @RestController
 public class ActivityRecordController {
