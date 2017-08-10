@@ -1,16 +1,14 @@
 package de.gast.activityrecord.entity;
 
+import de.gast.activityrecord.listener.DeleteActivityListener;
+
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="activity")
+@EntityListeners(DeleteActivityListener.class)
 public class Activity {
 
     @Id
@@ -80,4 +78,15 @@ public class Activity {
         this.last = last;
     }
 
+    @Override
+    public String toString() {
+        return "Activity{" +
+                "id=" + id +
+                ", clientIp='" + clientIp + '\'' +
+                ", sessionId='" + sessionId + '\'' +
+                ", counter=" + counter +
+                ", begin=" + begin +
+                ", last=" + last +
+                '}';
+    }
 }

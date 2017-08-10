@@ -50,6 +50,7 @@ public class ActivityRecordController {
     public void deleteActivity(@RequestParam("domain") String domain,
                                @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         logger.debug("Requested to delete activity with domain {} and older than {}", domain, date);
+
         if(StringUtils.isNotBlank(domain) && Objects.nonNull(date)) {
             try {
                 activityRecordService.deleteActivityRecord(URLDecoder.decode(domain, UTF_8), date);
