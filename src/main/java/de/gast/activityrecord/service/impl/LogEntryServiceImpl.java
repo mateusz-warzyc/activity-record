@@ -1,4 +1,4 @@
-package de.gast.activityrecord.service;
+package de.gast.activityrecord.service.impl;
 
 import de.gast.activityrecord.entity.Activity;
 import de.gast.activityrecord.entity.DeleteActivityEntry;
@@ -6,6 +6,7 @@ import de.gast.activityrecord.entity.DeleteRouteEntity;
 import de.gast.activityrecord.entity.Route;
 import de.gast.activityrecord.repository.LogActivityRepository;
 import de.gast.activityrecord.repository.LogRouteRepository;
+import de.gast.activityrecord.service.LogEntryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

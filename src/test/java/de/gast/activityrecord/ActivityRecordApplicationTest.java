@@ -104,6 +104,7 @@ public class ActivityRecordApplicationTest {
         //then
         assertFalse(routeRepository.exists(routeToDelete.getId()));
         assertFalse(activityRepository.exists(deleteCandidate.getId()));
+
         assertTrue(routeRepository.exists(routeToStay.getId()));
         assertTrue(activityRepository.exists(activityToStay.getId()));
     }

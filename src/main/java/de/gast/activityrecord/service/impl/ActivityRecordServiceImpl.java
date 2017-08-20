@@ -1,9 +1,10 @@
-package de.gast.activityrecord.service;
+package de.gast.activityrecord.service.impl;
 
 import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import de.gast.activityrecord.service.ActivityRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +15,7 @@ import de.gast.activityrecord.repository.ActivityRepository;
 import de.gast.activityrecord.repository.RouteRepository;
 
 @Service
-public class ActivityRecordServiceImpl implements ActivityRecordService{
+public class ActivityRecordServiceImpl implements ActivityRecordService {
 
     private final ActivityRepository activityRepository;
     private final RouteRepository routeRepository;
