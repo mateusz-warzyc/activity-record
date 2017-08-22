@@ -2,22 +2,37 @@ package de.gast.activityrecord.dto;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.validator.constraints.NotEmpty;
 
- /**
+import javax.validation.constraints.NotNull;
+
+/**
  * Created by mateusz-warzyc.
  */
 public class SaveActivityRequestDto {
 
+    @NotNull
+    @NotEmpty
     private String sessionId;
 
+    @NotNull
+    @NotEmpty
     private String clientIp;
 
+    @NotNull
+    @NotEmpty
     private String domain;
 
+    @NotNull
+    @NotEmpty
     private String path;
 
+    @NotNull
+    @NotEmpty
     private String hostName;
 
+    @NotNull
+    @NotEmpty
     private String hostIp;
 
     public SaveActivityRequestDto() {
