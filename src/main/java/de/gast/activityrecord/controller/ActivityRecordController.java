@@ -1,15 +1,13 @@
 package de.gast.activityrecord.controller;
 
+import de.gast.activityrecord.dto.SaveActivityRequestDto;
 import de.gast.activityrecord.service.ActivityRecordService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -25,21 +23,20 @@ public class ActivityRecordController {
     @Autowired
     private ActivityRecordService activityRecordService;
 
-    @RequestMapping("/save")
-    public void saveActivity(@RequestParam("sessionId") String sessionId, @RequestParam("clientIp") String clientIp,
-        @RequestParam("domain") String domain, @RequestParam("path") String path,
-        @RequestParam("hostName") String hostName, @RequestParam("hostIp") String hostIp) {
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public void saveActivity(@RequestBody SaveActivityRequestDto request) {
 
-    if (StringUtils.isNotBlank(sessionId) && StringUtils.isNotBlank(clientIp) && StringUtils.isNotBlank(domain) &&
-        StringUtils.isNotBlank(path) && StringUtils.isNotBlank(hostName) && StringUtils.isNotBlank(hostIp)) {
+    if (StringUtils.isNotBlank(request.getSessionId()) && StringUtils.isNotBlank(request.getClientIp())
+            && StringUtils.isNotBlank(request.getDomain()) &&
+        StringUtils.isNotBlank(request.getPath()) && StringUtils.isNotBlank(request.getHostName()) && StringUtils.isNotBlank(request.getHostIp())) {
 
         try {
-            activityRecordService.saveActivityRecord(URLDecoder.decode(sessionId, UTF_8),
-            URLDecoder.decode(clientIp, UTF_8), URLDecoder.decode(domain, UTF_8),
-            URLDecoder.decode(path, UTF_8), URLDecoder.decode(hostName, UTF_8), URLDecoder.decode(hostIp,UTF_8));
-            logger.debug("saved activity record with with ipAddress:{} and clientIp:{}",clientIp,sessionId);
+            activityRecordService.saveActivityRecord(URLDecoder.decode(request.getSessionId(), UTF_8),
+            URLDecoder.decode(request.getClientIp(), UTF_8), URLDecoder.decode(request.getDomain(), UTF_8),
+            URLDecoder.decode(request.getPath(), UTF_8), URLDecoder.decode(request.getHostName(), UTF_8), URLDecoder.decode(request.getHostIp(),UTF_8));
+            logger.debug("saved activity record with with ipAddress:{} and clientIp:{}",request.getClientIp(),request.getHostName());
         } catch (Exception e) {
-            logger.error("failed to save activity record with ipAddress:{} and clientIp:{}",clientIp,sessionId,e);
+            logger.error("failed to save activity record with ipAddress:{} and clientIp:{}",request.getClientIp(),request.getHostName(),e);
         }
     } else {
         logger.error("one or some of the parameters is missing, nothing will be saved into activity record");
