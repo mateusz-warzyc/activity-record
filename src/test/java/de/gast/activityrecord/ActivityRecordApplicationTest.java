@@ -5,6 +5,7 @@ import de.gast.activityrecord.entity.Route;
 import de.gast.activityrecord.repository.ActivityRepository;
 import de.gast.activityrecord.repository.RouteRepository;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,12 +54,10 @@ public class ActivityRecordApplicationTest {
 
         //when
         RestAssured.given().basePath(contextPath)
-                .param("sessionId", SESSION_ID).param("clientIp", CLIENT_IP)
-                .param("domain", DOMAIN).param("path", PATH)
-                .param("hostName", HOST_NAME).param("hostIp", HOST_IP)
-                .when().get("save")
+                .body(prepareJsonBody(true))
+                .contentType(ContentType.JSON)
+                .when().post("save")
                 .then().assertThat().statusCode(200);
-
         //then
         Activity activity = activityRepository.findBySessionIdAndClientIp(SESSION_ID, CLIENT_IP);
         assertNotNull(activity);
@@ -71,11 +70,10 @@ public class ActivityRecordApplicationTest {
 
         //when
         RestAssured.given().basePath(contextPath)
-                .param("sessionId", SESSION_ID).param("clientIp", CLIENT_IP)
-                .param("domain", invalidValue).param("path", PATH)
-                .param("hostName", HOST_NAME).param("hostIp", HOST_IP)
-                .when().get("save")
-                .then().assertThat().statusCode(200);
+                .body(prepareJsonBody(false))
+                .contentType(ContentType.JSON)
+                .when().post("save")
+                .then().assertThat().statusCode(400);
 
         //then
         Activity activity = activityRepository.findBySessionIdAndClientIp(SESSION_ID, CLIENT_IP);
@@ -107,6 +105,23 @@ public class ActivityRecordApplicationTest {
 
         assertTrue(routeRepository.exists(routeToStay.getId()));
         assertTrue(activityRepository.exists(activityToStay.getId()));
+    }
+
+    @Test
+    public void deleteShouldNotBeSuccessfulDueToEmptyDomain() {
+        //given
+        String invalidValue = null;
+        Date tomorrow = Date.from(ZonedDateTime.now().plusDays(1).toInstant());
+        DateFormat formatter = new SimpleDateFormat(DATE_PATTERN);
+        String formattedDate = formatter.format(tomorrow);
+
+        //when
+        RestAssured.given().log().all()
+                .basePath(contextPath)
+                .param("domain", invalidValue).param("date", formattedDate)
+                .when().delete("delete")
+                .then().assertThat().statusCode(400);
+
     }
 
 

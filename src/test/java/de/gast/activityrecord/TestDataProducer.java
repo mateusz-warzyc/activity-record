@@ -1,5 +1,8 @@
 package de.gast.activityrecord;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.gast.activityrecord.dto.SaveActivityRequestDto;
 import de.gast.activityrecord.entity.Activity;
 import de.gast.activityrecord.entity.Route;
 
@@ -38,4 +41,22 @@ public class TestDataProducer {
         route.setTimeStamp(currentDate);
         return route;
     }
+
+    public static String prepareJsonBody(boolean shouldBeValid) {
+        String jsonBody = "";
+        SaveActivityRequestDto dto = new SaveActivityRequestDto(SESSION_ID ,CLIENT_IP ,DOMAIN ,PATH ,HOST_NAME ,HOST_IP);
+        if(!shouldBeValid) {
+            dto.setSessionId(null);
+            dto.setDomain("");
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            jsonBody =  mapper.writeValueAsString(dto);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return jsonBody;
+    }
+
 }
