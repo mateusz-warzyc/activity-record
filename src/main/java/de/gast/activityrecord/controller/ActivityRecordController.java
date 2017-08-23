@@ -27,7 +27,7 @@ public class ActivityRecordController {
     private ActivityRecordService activityRecordService;
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public void saveActivity(@Valid @RequestBody SaveActivityRequestDto request) throws UnsupportedEncodingException {
+    public void saveActivity(@Valid @RequestBody SaveActivityRequestDto request) {
         //TODO: too many parameters in method signature
         activityRecordService.saveActivityRecord(request.getSessionId(), request.getClientIp(), request.getDomain(),
                     request.getPath(), request.getHostName(), request.getHostIp());
